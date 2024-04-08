@@ -22,7 +22,7 @@ class ContattiController extends AbstractController
         $sql=" SELECT * FROM contatti";
         $result=$conn->executeQuery($sql);
         $dati = $result->fetchAllAssociative();
-       dd($dati);
+      // dd($dati);
         $form = $this->createForm(ContattiFormType::class);
        // dd($form);
         $form->handleRequest($request);
@@ -129,5 +129,17 @@ class ContattiController extends AbstractController
 
 
     // }
+    #[Route('dati', name: 'dati')]
+    public function dati(EntityManagerInterface $em, Request $request): Response 
+    { 
+        $conn=$em->getConnection();
+        $sql=" SELECT * FROM contatti";
+        $result=$conn->executeQuery($sql);
+        $dati = $result->fetchAllAssociative();
+
+        return $this->render('dati.html.twig',[
+            'dati'=>$dati,
+        ]);
+    }
 
 }
