@@ -1,0 +1,24 @@
+{# templates/modifica_contatto.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Modifica Contatto</h1>
+
+    {# Aggiungi eventuali messaggi di errore o successo #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {# Visualizza il form di modifica del contatto #}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">Salva Modifiche</button>
+    {{ form_end(form) }}
+    
+    {# Aggiungi un link per tornare alla pagina precedente #}
+     <div> <a href='http://rubrica:8888/contatti'><h2>Home</h2></a></div>
+ 
+{% endblock %}

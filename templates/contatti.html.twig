@@ -1,68 +1,65 @@
-{# templates/contatti.html.twig #}
-
-
 {% extends 'base.html.twig' %}
- {% block javascripts %}
+{% block javascripts %}
 
 {% endblock %}
 {% block body %}
     <h1>Contatti</h1>
 
-    {% if success_message is defined %}
-        <span class="text-success">{{ success_message }}</span>
+    {% if message is defined %}
+        <span class="text-success">{{ message }}</span>
         <br><br>
     {% endif %}
 
     {{ form_start(form) }}
-      
-         
-<div class="row d-flex align-items-center justify-content-around">
-    <div class="col-15 d-flex  align-items-center justify-content-around">
-        {{ form_label(form.nome) }}
-          <BR>
-        {{ form_widget(form.nome) }}
+
+    <div class="row d-flex align-items-center justify-content-around">
+        <div class="col-15 d-flex  align-items-center justify-content-around">
+            {{ form_label(form.nome) }}
+            <br>
+            {{ form_widget(form.nome) }}
+        </div>
     </div>
-</div>
-<div class="row ">
-    <div class="col-4">
-       {{ form_label(form.cognome) }}
-         <BR>
-        {{ form_widget(form.cognome) }}
+    <div class="row">
+        <div class="col-4">
+            {{ form_label(form.cognome) }}
+            <br>
+            {{ form_widget(form.cognome) }}
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-4">
-       {{ form_label(form.email) }}
-       <BR>
-        {{ form_widget(form.email, {'attr': {'type': 'text'}}) }}
+    <div class="row">
+        <div class="col-4">
+            {{ form_label(form.email) }}
+            <br>
+            {{ form_widget(form.email, {'attr': {'type': 'text'}}) }}
+        </div>
     </div>
-</div>
-<div class="row">
-     <div class="col-4">
-        {{ form_label(form.telefono) }}
-        <BR>
-        {{ form_widget(form.telefono) }}
-     </div>
-</div>
-<div class="row">
-    <div class="col-4">
-        {{ form_label(form.sesso) }}
-        <BR>
-        {{ form_widget(form.sesso) }}
+    <div class="row">
+        <div class="col-4">
+            {{ form_label(form.telefono) }}
+            <br>
+            {{ form_widget(form.telefono) }}
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-4">
-        {{ form_label(form.mycitta) }}
-        <BR>
-        {{ form_widget(form.mycitta) }}
+    <div class="row">
+        <div class="col-4">
+            {{ form_label(form.sesso) }}
+            <br>
+            {{ form_widget(form.sesso) }}
+        </div>
     </div>
-</div>
-  <BR>  <BR>
+    <div class="row">
+        <div class="col-4">
+            {{ form_label(form.mycitta) }}
+            <br>
+            {{ form_widget(form.mycitta) }}
+        </div>
+    </div>
+    <br><br>
 
     <button type="submit" class="btn btn-primary">SALVA I TUOI DATI</button>
-   
 
     {{ form_end(form) }}
-    <div> <a href='http://rubrica:8888/dati'><h2>visualizza contatti</h2></a></div>
+
+    <div><a href='http://rubrica:8888/dati'><h2>Visualizza contatti</h2></a></div>
+    <div><a href='http://rubrica:8888/cercacontatti'><h2>Modifica contatto</h2></a></div>
 {% endblock %}

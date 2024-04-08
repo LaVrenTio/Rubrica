@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Entity\Contatti;
 use App\Form\ContattiFormType;
+use App\Form\CercaContattoType;
+use App\Form\ModificaContattoType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,13 +24,16 @@ class ContattiController extends AbstractController
         $sql=" SELECT * FROM contatti";
         $result=$conn->executeQuery($sql);
         $dati = $result->fetchAllAssociative();
-      // dd($dati);
+      
+        $messaggio = $request->query->get('message');
+       //dd($dati);
         $form = $this->createForm(ContattiFormType::class);
-       // dd($form);
+      // 
         $form->handleRequest($request);
+        //dd($form);
         if ($form->isSubmitted() && $form->isValid()){
             // $errors = $form->getErrors(true, false);
-
+            
             // // Crea un array per memorizzare i messaggi di errore
             // $errorMessages = [];
             // foreach ($errors as $error) {
@@ -39,7 +44,8 @@ class ContattiController extends AbstractController
             // $errorMessageJson = json_encode($errorMessages);
     
             // Ritorna una risposta JSON contenente i messaggi di errore
-            //return new Response($errorMessageJson, 400); 
+            //return new Response($errorMessageJson, 400);
+            //dd('dentro'); 
             $contatto = $form->getData();
              $nomeCity=$contatto->getCitta();
              $contatto->setCitta($nomeCity);
@@ -56,16 +62,12 @@ class ContattiController extends AbstractController
         foreach($dati as $r){
            // dd($r);
         }
-        if ($request->query->has('visualizza_rubrica')) {
-           // dd('cliccato');
-            // Se il bottone "VISUALIZZA RUBRICA" è stato cliccato, reindirizza l'utente alla pagina 'dati.html'
-            return $this->render('dati.html.twig',[ 
-                'dati'=> $dati,
-        ]);
-        }
+       
+        
         if(!$sent){
 
             return $this->render('contatti.html.twig',[
+                'message'=>$messaggio,
                'form'=>$form->createView(),
             ]);
         }else{
@@ -81,54 +83,6 @@ class ContattiController extends AbstractController
         return $this->render('dbPresent.html.twig');
     }
 
-    // #[Route('/xpacco_d/{id_xmagtesta}/{id_xpacco}', name: 'x_pacco_d')]
-    // public function x_pacco_d(EntityManagerInterface $em,int $id_xmagtesta,int $id_xpacco, Request $request): Response
-    // {
-    //     if ($id_xpacco>0){
-    //         $Xpacco = $em->getRepository(Xpacco::class)->find($id_xpacco);
-    //     }else{
-    //         $Xpacco = new Xpacco();
-    //     }
-    //     $aXpaccoTemplate = $em->getRepository(Xpacco::class)->get_pacco_template();
-    //     $form = $this->createForm(xPaccoFormType::class,$Xpacco,['aXpaccoTemplate'=>$aXpaccoTemplate]);
-    //     //dd($form);
-    //     $form->handleRequest($request);
-    //     if ($form->isSubmitted() && $form->isValid()){
-            
-    //         $Xpacco = $form->getData();
-    //         //dd($Xpacco);
-    //         // imposto id_xmagtesta perché non l'ho passato nel form e lo imposto qui
-    //         $Xpacco->setIdXmagtesta($id_xmagtesta);
-    //         //mando al save del repository il pacco 
-    //         $em->getRepository(Xpacco::class)->save($Xpacco);
-           
-    //         return $this->redirectToRoute("x_pacco_index",[
-    //             'id_xmagtesta'=>$id_xmagtesta
-    //         ]);
-    //     }
-
-    //     // inizializzo i dati della form con valori a zero
-    //     /*
-    //     if ($id_pacco==0){
-    //         $form->get('altezza')->setData(0.0);
-    //         $form->get('lunghezza')->setData(0);
-    //         $form->get('larghezza')->setData(0);
-    //         $form->get('volume')->setData(0);
-    //     }
-    //     */
-
-    //     $BackTolistaPacchi = $this->generateUrl('x_pacco_index',[
-    //         'id_xmagtesta'=>$id_xmagtesta,
-    //     ]);
-
-
-    //     return $this->render('x_pacco\xpacco_d.html.twig',[
-    //         'xpaccoForm' =>$form->createView(),
-    //         'link_annulla' =>$BackTolistaPacchi,
-    //     ]);
-
-
-    // }
     #[Route('dati', name: 'dati')]
     public function dati(EntityManagerInterface $em, Request $request): Response 
     { 
@@ -141,5 +95,67 @@ class ContattiController extends AbstractController
             'dati'=>$dati,
         ]);
     }
+    #[Route('cercacontatti', name: 'cercacontatti')]
+    public function cercacontatti(EntityManagerInterface $em, Request $request): Response 
+    {   
+       
+        $contatto = new Contatti();
+        $form = $this->createForm(CercaContattoType::class, $contatto);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Qui gestisci la logica per cercare il contatto nel database
+            // Utilizzando i dati inseriti nel form (nome e cognome)
+
+            // Esempio di ricerca del contatto nel repository
+            $nome = $contatto->getNome();
+            $cognome = $contatto->getCognome();
+            $repository = $em->getRepository(Contatti::class);
+            $contattoTrovato = $repository->findOneBy(['nome' => $nome, 'cognome' => $cognome]);
+
+            if ($contattoTrovato) {
+              //  dd($contattoTrovato);
+                return $this->redirectToRoute('pagina_modifica_contatto', [
+                    'id' => $contattoTrovato->getId(), // Passa l'ID del contatto alla pagina di modifica
+                ]);
+                
+            } else {
+                
+                return $this->redirectToRoute('contatti', [
+                    'message' => 'Contatto non trovato. Inserisci un nuovo contatto.',
+                    
+                ]);
+            }
+        }
+
+        return $this->render('cerca_contatto.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('pagina_modifica_contatto/{id}', name: 'pagina_modifica_contatto')]
+    public function pagina_modifica_contatto(EntityManagerInterface $em,Contatti $contatto, Request $request): Response 
+    {   // Creazione del form di modifica pre-popolato con i dati del contatto trovato
+        $form = $this->createForm(ModificaContattoType::class, $contatto);
+    
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Salvataggio delle modifiche nel database
+         $em->flush();
+    
+            // Aggiungi un messaggio di successo
+            $this->addFlash('success', 'Contatto modificato con successo!');
+    
+            // Reindirizza all'elenco dei contatti o ad un'altra pagina desiderata
+            return $this->redirectToRoute('contatti');
+        }
+    
+        return $this->render('modifica_contatto.html.twig', [
+            'form' => $form->createView(),
+        ]);
+
+    }
 }
+
+

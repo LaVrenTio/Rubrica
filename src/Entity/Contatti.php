@@ -97,6 +97,12 @@ class Contatti
 
     public function getCitta(): ?string
     {
+        if ($this->mycitta === null) {
+            // Se è null, restituisci una stringa vuota
+            return '';
+        }
+        
+        // Altrimenti, restituisci il nome della città
         return $this->mycitta->getNomeCitta();
     }
 
