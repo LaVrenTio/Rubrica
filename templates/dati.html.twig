@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+{% block title %}Contatti{% endblock %}
+{% block body %}
+   
+    <div><h1>Contatti</h1></div>
+    <div> <a href='http://rubrica:8888/contatti'><h2>Home</h2></a></div>
+    <br>
+
+    
+   
+<style>
+div{
+     font-family: "Courier New", Courier, monospace;
+}
+    table {
+        border-collapse: collapse;
+        width: 100%;
+         font-family: "Courier New", Courier, monospace;
+    }
+
+    th {
+        
+        padding: 8px;
+        text-align: left;
+        font-weight: 700;
+        border-bottom: 1px solid #ddd;
+        font-family: "Courier New", Courier, monospace;
+    }
+     td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-family: "Courier New", Courier, monospace;
+    }
+</style>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            {% for header in dati[0]|keys %}
+                <h2><th style="background-color: yellow;">{{ header }}</th></h2>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody style="overflow-y: scroll; height: 200px;">
+        {% for row in dati %}
+            <tr>
+                    <td>{{loop.index}}</td>
+                {% for value in row %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+    </tbody>
+        {% endfor %}
+</table>
+
+
+{% endblock %} 

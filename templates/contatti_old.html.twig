@@ -1,0 +1,59 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Contatti</h1>
+
+    {{ form_start(form) }}
+      
+<div class="row d-flex align-items-center justify-content-around">
+    <div class="col-15 d-flex  align-items-center justify-content-around">
+        {{ form_label(form.nome) }}
+          <BR>
+        {{ form_widget(form.nome) }}
+    </div>
+</div>
+<div class="row ">
+    <div class="col-4">
+       {{ form_label(form.cognome) }}
+         <BR>
+        {{ form_widget(form.cognome) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-4">
+       {{ form_label(form.email) }}
+       <BR>
+        {{ form_widget(form.email, {'attr': {'type': 'text'}}) }}
+    </div>
+</div>
+<div class="row">
+     <div class="col-4">
+        {{ form_label(form.telefono) }}
+        <BR>
+        {{ form_widget(form.telefono) }}
+     </div>
+</div>
+<div class="row">
+    <div class="col-4">
+        {{ form_label(form.sesso) }}
+        <BR>
+        {{ form_widget(form.sesso) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-4">
+        {{ form_label(form.mycitta) }}
+        <BR>
+        {{ form_widget(form.mycitta) }}
+    </div>
+</div>
+  <BR>  <BR>
+<div class="row">
+    <div class="col-4">
+     <button type="submit" class="btn btn-primary">SALVA I TUOI DATI</button>
+     
+    </div>
+</div>
+    {{form_end(form)}}
+{% endblock %}

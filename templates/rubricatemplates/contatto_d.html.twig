@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %} 
+
+
+
+
+
+
+{% block body_pagina %}
+
+{{ form_start(ContattiForm)}}
+  
+<div class="row d-flex align-items-center justify-content-around">
+    <div class="col-15 d-flex  align-items-center justify-content-around">
+       
+            {{ form_row(ContattiForm.Id) }}
+        
+        <button type="button" class="btn btn-secondary custom-border btnCopiaDati" >Copia Dati</button>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-4">
+        {{ form_row(ContattiForm.nome) }}
+    </div>
+    <div class="col-4  ">
+        {{ form_row(ContattiForm.cognome) }}
+    </div>
+    <div class="col-4">
+        {{ form_row(ContattiForm.email) }}
+    </div>
+</div>
+
+<div class="row d-flex align-items-center justify-content-around">
+    <div class="colcol-15 d-flex  align-items-center justify-content-around">
+        {{ form_row(ContattiForm.telefono) }}
+        {{ form_widget(ContattiForm)}}
+    </div>
+</div>
+
+
+
+<button type="submit" class="btn btn-primary">OK</button>
+<a href='{{ link_annulla }}'><button type="button" class="btn btn-secondary">Annulla</button></a>
+
+{{ form_end(ContattiForm)}}
+
+
+
+{% endblock %} 
+
+
+

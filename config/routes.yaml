@@ -1,0 +1,24 @@
+controllers:
+    
+    resource: ../src/Controller/
+    type: attribute
+# config/routes.yaml
+
+app_homepage:
+    path: /
+    controller: App\Controller\YourController::homepage
+
+app_contatti:
+    path: /contatti
+    controller: App\Controller\ContattiController::contatti
+    
+app_dati:
+    path: /dati
+    controller: App\Controller\DatiController::dati    
+# controllers:
+#     resource:
+#         path: ../src/Controller/
+#         namespace: App\Controller
+#         controller: App\Controller\YourController::homepage
+#         type: attribute
+
